@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="SimVibe 3D - An immersive cyberpunk city experience with AI-powered NPCs">
+    <title>SimVibe 3D - Cyberpunk City</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700;900&family=Rajdhani:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="css/main.css">
+</head>
+
+<body>
+    <!-- Loading Screen -->
+    <div id="loading-screen">
+        <div class="loader-content">
+            <div class="loader-ring"></div>
+            <h1 class="loader-title">SIMVIBE<span class="accent">3D</span></h1>
+            <p class="loader-subtitle">Initializing Neural City Matrix...</p>
+            <div class="loader-progress">
+                <div class="loader-progress-bar"></div>
+            </div>
+            <p class="loader-status">Loading assets...</p>
+        </div>
+    </div>
+
+    <!-- Start Screen -->
+    <div id="start-screen" class="hidden">
+        <div class="start-content">
+            <h1 class="start-title">SIMVIBE<span class="accent">3D</span></h1>
+            <p class="start-subtitle">NEON DISTRICT // SECTOR 7</p>
+            <div class="start-instructions">
+                <div class="instruction-item">
+                    <span class="key">W A S D</span>
+                    <span class="action">Move</span>
+                </div>
+                <div class="instruction-item">
+                    <span class="key">MOUSE</span>
+                    <span class="action">Look Around</span>
+                </div>
+                <div class="instruction-item">
+                    <span class="key">E</span>
+                    <span class="action">Talk to NPC</span>
+                </div>
+                <div class="instruction-item">
+                    <span class="key">ESC</span>
+                    <span class="action">Pause / Exit Chat</span>
+                </div>
+            </div>
+            <button id="start-button" class="cyber-button">
+                <span class="button-text">ENTER THE CITY</span>
+                <span class="button-glitch"></span>
+            </button>
+        </div>
+    </div>
+
+    <!-- HUD -->
+    <div id="hud" class="hidden">
+        <div class="hud-top">
+            <div class="hud-location">
+                <span class="location-icon">◈</span>
+                <span id="location-name">NEON DISTRICT</span>
+            </div>
+            <div class="hud-quest" id="hud-quest">
+                <span class="quest-icon">◉</span>
+                <span id="quest-objective">Explore the district</span>
+            </div>
+            <div class="hud-time" id="hud-time">00:00</div>
+        </div>
+        <div class="hud-bottom">
+            <div class="hud-hint" id="interaction-hint"></div>
+            <!-- NPC Speech Bubbles Container -->
+            <div id="speech-bubbles"></div>
+            <div class="hud-follow hidden" id="follow-indicator">
+                <span class="follow-icon">→</span>
+                <span id="follow-name">Following NPC</span>
+            </div>
+        </div>
+        <div class="hud-crosshair">
+            <div class="crosshair-dot"></div>
+        </div>
+    </div>
+
+    <!-- Story Intro Modal -->
+    <div id="story-intro" class="hidden">
+        <div class="story-intro-content">
+            <div class="story-header">
+                <span class="story-date">2087.01.01 // 03:47</span>
+                <h2>INCOMING TRANSMISSION</h2>
+            </div>
+            <div class="story-message" id="story-message">
+                <!-- Story intro text will be inserted here -->
+            </div>
+            <button id="story-continue" class="cyber-button small">ACKNOWLEDGE</button>
+        </div>
+    </div>
+
+    <!-- Quest Log (Press Q) -->
+    <div id="quest-log" class="hidden">
+        <div class="quest-log-content">
+            <h2>📋 MISSION LOG</h2>
+            <div class="quest-main">
+                <h3 id="quest-title">The Ghost Protocol</h3>
+                <p id="quest-description">Uncover the truth about the mysterious program.</p>
+            </div>
+            <div class="quest-objectives" id="quest-objectives">
+                <!-- Objectives will be inserted here -->
+            </div>
+            <div class="quest-clues">
+                <h4>🔍 DISCOVERED CLUES</h4>
+                <ul id="clues-list">
+                    <li class="no-clues">No clues discovered yet...</li>
+                </ul>
+            </div>
+            <button id="quest-close" class="cyber-button small">CLOSE</button>
+        </div>
+    </div>
+
+    <!-- NPC Chat Interface -->
+    <div id="chat-container" class="hidden">
+        <div class="chat-window">
+            <div class="chat-header">
+                <div class="npc-avatar" id="npc-avatar"></div>
+                <div class="npc-info">
+                    <h3 id="npc-name">Unknown</h3>
+                    <span id="npc-title">Citizen</span>
+                </div>
+                <button id="chat-close" class="chat-close-btn">×</button>
+            </div>
+            <div class="chat-messages" id="chat-messages">
+                <!-- Messages will be inserted here -->
+            </div>
+            <div class="chat-actions hidden" id="chat-actions">
+                <button id="follow-btn" class="cyber-button small">FOLLOW THEM</button>
+            </div>
+            <div class="chat-input-container">
+                <div class="typing-indicator hidden" id="typing-indicator">
+                    <span></span><span></span><span></span>
+                </div>
+                <input type="text" id="chat-input" placeholder="Say something..." autocomplete="off">
+                <button id="chat-send" class="chat-send-btn">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M22 2L11 13M22 2L15 22L11 13L2 9L22 2Z" />
+                    </svg>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Settings Panel -->
+    <div id="settings-panel" class="hidden">
+        <div class="settings-content">
+            <h2>SYSTEM CONFIG</h2>
+            <div class="setting-group">
+                <label for="ollama-model">AI Model</label>
+                <select id="ollama-model">
+                    <option value="qwen2.5:3b">Qwen 2.5 (3B)</option>
+                    <option value="llama3.2:3b">Llama 3.2 (3B)</option>
+                    <option value="phi3:mini">Phi-3 Mini</option>
+                    <option value="gemma2:2b">Gemma 2 (2B)</option>
+                    <option value="mistral">Mistral</option>
+                </select>
+            </div>
+            <div class="setting-group">
+                <label for="ollama-url">Ollama URL</label>
+                <input type="text" id="ollama-url" value="http://localhost:11434">
+            </div>
+            <div class="setting-group toggle-group">
+                <label for="tts-toggle">NPC Voices (TTS)</label>
+                <label class="toggle-switch">
+                    <input type="checkbox" id="tts-toggle">
+                    <span class="toggle-slider"></span>
+                </label>
+            </div>
+            <div class="setting-group" id="tts-status-group">
+                <label>Voice Engine</label>
+                <span id="tts-status-text" class="status-offline">Default (Robotic)</span>
+            </div>
+            <div class="setting-group game-status" id="game-status">
+                <label>Game Status</label>
+                <span id="status-text">In Progress</span>
+            </div>
+            <div class="settings-buttons">
+                <button id="settings-close" class="cyber-button small">CLOSE</button>
+                <button id="new-game-btn" class="cyber-button small danger">NEW GAME</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Confirmation Modal -->
+    <div id="confirm-modal" class="hidden">
+        <div class="confirm-content">
+            <h3 id="confirm-title">CONFIRM ACTION</h3>
+            <p id="confirm-text">Are you sure?</p>
+            <div class="confirm-buttons">
+                <button id="confirm-cancel" class="cyber-button small">CANCEL</button>
+                <button id="confirm-yes" class="cyber-button small danger">CONFIRM</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Three.js Container -->
+    <div id="game-container"></div>
+
+    <!-- Scripts -->
+    <script type="importmap">
+    {
+        "imports": {
+            "three": "https://unpkg.com/three@0.160.0/build/three.module.js",
+            "three/addons/": "https://unpkg.com/three@0.160.0/examples/jsm/"
+        }
+    }
+    </script>
+    <script type="module" src="js/main.js"></script>
+</body>
+
+</html>
