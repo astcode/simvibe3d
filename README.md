@@ -150,3 +150,14 @@ This project is designed as a **local-first, privacy-safe prototype** focused on
 ```bash
 pip install edge-tts flask flask-cors
 python tts_server.py
+```
+
+### Running the Game
+
+1. Start the web server:
+```bash
+npx http-server -p 4242 -c-1 --cors
+```
+
+2. Open the game in your browser:
+   [http://localhost:4242](http://localhost:4242)
